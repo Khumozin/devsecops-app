@@ -107,7 +107,7 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
             image-ref: khumo/devsecops:latest
-            format: 'table'
+            format: 'github'
             severity: 'CRITICAL,HIGH'
             exit-code: '1'
 
