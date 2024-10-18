@@ -108,6 +108,7 @@ jobs:
         with:
             image-ref: khumo/devsecops:latest
             format: 'github'
+            output: 'dependency-results.sbom.json'
             severity: 'CRITICAL,HIGH'
             exit-code: '1'
 
