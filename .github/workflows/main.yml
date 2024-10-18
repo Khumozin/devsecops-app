@@ -106,7 +106,7 @@ jobs:
       - name: Tag Docker image with semantic version and latest
         run: |
           docker image ls
-          docker tag devsecops khumo/devsecops:latest
+          docker tag khumo/devsecops:latest khumo/devsecops:latest
 
       - name: Log in to Docker Hub
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
