@@ -113,8 +113,8 @@ jobs:
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
       - name: Tag Docker image with semantic version and latest
         run: |
-          docker tag devsecops:latest khumo/devsecops:latest
-        # docker tag devsecops:latest khumo/devsecops:${{ steps.semantic_release.outputs.new_release_version }}
+          docker tag devsecops khumo/devsecops:latest
+        # docker tag devsecops khumo/devsecops:${{ steps.semantic_release.outputs.new_release_version }}
       #   - name: Push Docker image to Docker Hub
       #     run: docker push khumo/devsecops:${{ steps.semantic_release.outputs.new_release_version }}
       - name: Push latest Docker image to Docker Hub
