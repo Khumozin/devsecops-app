@@ -149,8 +149,9 @@ jobs:
       - name: Tag Docker image with semantic version and latest
         run: |
           docker image ls
+          echo "${{ steps.semantic_release.outputs.new_release_version }}"
           docker tag khumo/devsecops:latest khumo/devsecops:latest
-          docker tag khumo/devsecops:latest khumo/devsecops:${{ steps.semantic_release.outputs.new_release_version }}
+        #   docker tag khumo/devsecops:latest khumo/devsecops:${{ steps.semantic_release.outputs.new_release_version }}
 
       - name: Log in to Docker Hub
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
@@ -158,8 +159,9 @@ jobs:
       - name: Push latest Docker image to Docker Hub
         run: docker push khumo/devsecops:latest
 
-      - name: Push ${{ steps.semantic_release.outputs.new_release_version }} Docker image to Docker Hub
-        run: docker push khumo/devsecops:${{ steps.semantic_release.outputs.new_release_version }}
+    #   - name: Push Docker image to Docker Hub
+    #     run: docker push khumo/devsecops:${{ steps.semantic_release.outputs.new_release_version }}
+
 #   docker-tag-and-push:
 #     runs-on: ubuntu-latest
 #     needs: [docker-build]
