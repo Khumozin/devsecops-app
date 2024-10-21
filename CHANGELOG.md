@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/Khumozin/devsecops-app/compare/v1.0.1...v1.0.2) (2024-10-21)
+
+
+### Bug Fixes
+
+* add versioning to ci ([7698d0d](https://github.com/Khumozin/devsecops-app/commit/7698d0d560245742be7d10d73c1223b8223e706a))
+
 ## [1.0.1](https://github.com/Khumozin/devsecops-app/compare/v1.0.0...v1.0.1) (2024-10-21)
 
 
