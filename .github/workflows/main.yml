@@ -88,7 +88,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  publish:
+  release:
     runs-on: ubuntu-latest
     needs: [security-scan, unit-test, gitleaks]
     strategy:
@@ -96,6 +96,8 @@ jobs:
         node-version: [20.x]
     permissions:
       contents: write
+    outputs:
+      pkg-version: ${{ steps.get-version.outputs.pkg-version }}
     steps:
       - uses: actions/checkout@v4
       - name: Cache npm modules
@@ -113,18 +115,24 @@ jobs:
       - run: npm run build
 
       - name: Semantic release
-        id: semantic_release
         uses: nick-fields/retry@v2
         with:
           timeout_minutes: 5
           max_attempts: 2
           command: npx semantic-release
+
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Get release version
+        id: get-version
+        run: |
+         PKG_VERSION=$(npm pkg get version)
+         echo "pkg-version=$PKG_VERSION" > $GITHUB_OUTPUT
+
   docker-build:
     runs-on: ubuntu-latest
-    needs: [publish]
+    needs: [release]
     steps:
       - uses: actions/checkout@v4
       - name: Cache Docker layers
@@ -149,9 +157,9 @@ jobs:
       - name: Tag Docker image with semantic version and latest
         run: |
           docker image ls
-          echo "${{ steps.semantic_release.outputs.new_release_version }}"
+          echo "${{ needs.release.outputs.pkg-version }}"
           docker tag khumo/devsecops:latest khumo/devsecops:latest
-        #   docker tag khumo/devsecops:latest khumo/devsecops:${{ steps.semantic_release.outputs.new_release_version }}
+          docker tag khumo/devsecops:latest khumo/devsecops:${{ needs.release.outputs.pkg-version }}
 
       - name: Log in to Docker Hub
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
