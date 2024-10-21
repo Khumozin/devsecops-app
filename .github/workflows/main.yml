@@ -1,4 +1,4 @@
-name: Build, Test
+name: Build, Test, Secure & Release
 
 on:
   push:
@@ -164,7 +164,6 @@ jobs:
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Push latest Docker image to Docker Hub
-        run: docker push khumo/devsecops:latest
-
-      - name: Push Docker image to Docker Hub
-        run: docker push khumo/devsecops:v${{ needs.release.outputs.pkg-version }}
+        run: |
+            docker push khumo/devsecops:v${{ needs.release.outputs.pkg-version }}
+            docker push khumo/devsecops:latest
