@@ -127,8 +127,8 @@ jobs:
       - name: Get release version
         id: get-version
         run: |
-         PKG_VERSION=$(npm pkg get version)
-         echo "pkg-version=$PKG_VERSION" > $GITHUB_OUTPUT
+          PKG_VERSION=$(npm pkg get version)
+          echo "pkg-version=$PKG_VERSION" > $GITHUB_OUTPUT
 
   docker-build:
     runs-on: ubuntu-latest
@@ -157,9 +157,8 @@ jobs:
       - name: Tag Docker image with semantic version and latest
         run: |
           docker image ls
-          echo "${{ needs.release.outputs.pkg-version }}"
           docker tag khumo/devsecops:latest khumo/devsecops:latest
-          docker tag khumo/devsecops:latest khumo/devsecops:${{ needs.release.outputs.pkg-version }}
+          docker tag khumo/devsecops:latest khumo/devsecops:v${{ needs.release.outputs.pkg-version }}
 
       - name: Log in to Docker Hub
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
@@ -167,30 +166,5 @@ jobs:
       - name: Push latest Docker image to Docker Hub
         run: docker push khumo/devsecops:latest
 
-    #   - name: Push Docker image to Docker Hub
-    #     run: docker push khumo/devsecops:${{ steps.semantic_release.outputs.new_release_version }}
-
-#   docker-tag-and-push:
-#     runs-on: ubuntu-latest
-#     needs: [docker-build]
-#     # if: steps.semantic_release.outputs.new_release_version != ''
-#     steps:
-#       - uses: actions/checkout@v4
-#       - name: Log in to Docker Hub
-#         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-#       - name: Tag Docker image with semantic version and latest
-#         run: |
-#           docker image ls
-#           docker tag devsecops khumo/devsecops:latest
-#         # docker tag devsecops khumo/devsecops:${{ steps.semantic_release.outputs.new_release_version }}
-#       #   - name: Push Docker image to Docker Hub
-#       #     run: docker push khumo/devsecops:${{ steps.semantic_release.outputs.new_release_version }}
-#       - name: Push latest Docker image to Docker Hub
-#         run: docker push khumo/devsecops:latest
-
-#       # Trivy Docker Image Security Scan
-#       - name: Scan Docker image for vulnerabilities with Trivy
-#         uses: aquasecurity/trivy-action@master
-#         with:
-#           image-ref: khumo/devsecops:latest
-#         #   image-ref: khumo/devsecops:${{ steps.semantic_release.outputs.new_release_version }}
+      - name: Push Docker image to Docker Hub
+        run: docker push khumo/devsecops:v${{ needs.release.outputs.pkg-version }}
