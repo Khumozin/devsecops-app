@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/Khumozin/devsecops-app/compare/v1.0.2...v1.0.3) (2024-10-21)
+
+
+### Bug Fixes
+
+* tag image with semantic version ([cb9bd13](https://github.com/Khumozin/devsecops-app/commit/cb9bd130f58fa3a3f57c265ef98cdd4363701a01))
+
 ## [1.0.2](https://github.com/Khumozin/devsecops-app/compare/v1.0.1...v1.0.2) (2024-10-21)
 
 
