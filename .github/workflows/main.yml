@@ -96,7 +96,7 @@ jobs:
       contents: write
     outputs:
       pkg-version: ${{ steps.get-version.outputs.pkg-version }}
-      prev-pkg-version: ${{ steps.get-version.outputs.prev-pkg-version }}
+      prev-pkg-version: ${{ steps.get-previous-version.outputs.prev-pkg-version }}
     steps:
       - uses: actions/checkout@v4
       - name: Cache npm modules
