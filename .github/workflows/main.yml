@@ -173,3 +173,22 @@ jobs:
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/devsecops:v${{ needs.semantic-release.outputs.pkg-version }}
           docker push ${{ secrets.DOCKER_USERNAME }}/devsecops:latest
+
+  update-manifests:
+    runs-on: ubuntu-latest
+    needs: [image-build]
+    steps:
+      - uses: actions/checkout@v4
+      - name: GitOps - Update Deployment Manifest
+        run: |
+          sed -i "s|image:.*|image: ${{ secrets.DOCKER_USERNAME }}/devsecops:v${{ needs.semantic-release.outputs.pkg-version }}|" dev/deployment.yaml
+
+      - name: Commit Changes
+        run: |
+          git config --local user.name "GitHub Actions"
+          git config --local user.email "actions@github.com"
+          git add dev/deployment.yaml
+          git commit -m "Bump image version to v${{ needs.semantic-release.outputs.pkg-version }}"
+
+      - name: Push Changes
+        run: git push
