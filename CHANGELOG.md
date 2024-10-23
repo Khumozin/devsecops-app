@@ -1,3 +1,10 @@
+## [1.0.4](https://github.com/Khumozin/devsecops-app/compare/v1.0.3...v1.0.4) (2024-10-23)
+
+
+### Bug Fixes
+
+* change fontsize ([a08521c](https://github.com/Khumozin/devsecops-app/commit/a08521c9032afe3cd862bbd5147db981863fa299))
+
 ## [1.0.3](https://github.com/Khumozin/devsecops-app/compare/v1.0.2...v1.0.3) (2024-10-21)
 
 
