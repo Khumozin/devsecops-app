@@ -179,6 +179,10 @@ jobs:
     needs: [image-build]
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
+          repository: Khumozin/devsecops-gitops-config
+
       - name: GitOps - Update Deployment Manifest
         run: |
           sed -i "s|image:.*|image: ${{ secrets.DOCKER_USERNAME }}/devsecops:v${{ needs.semantic-release.outputs.pkg-version }}|" dev/deployment.yaml
@@ -191,4 +195,6 @@ jobs:
           git commit -m "chore: bump image version to v${{ needs.semantic-release.outputs.pkg-version }}"
 
       - name: Push Changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: git push
