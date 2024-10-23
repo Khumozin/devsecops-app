@@ -188,7 +188,7 @@ jobs:
           git config --local user.name "GitHub Actions"
           git config --local user.email "actions@github.com"
           git add dev/deployment.yaml
-          git commit -m "Bump image version to v${{ needs.semantic-release.outputs.pkg-version }}"
+          git commit -m "chore: bump image version to v${{ needs.semantic-release.outputs.pkg-version }}"
 
       - name: Push Changes
         run: git push
