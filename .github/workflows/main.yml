@@ -184,11 +184,10 @@ jobs:
           repository: khumozin/devsecops-gitops-config
           ref: main
           token: ${{ secrets.DEVSECOPSAPP_PAT }}
-          path: gitops
 
       - name: GitOps - Update Deployment Manifest
         run: |
-           cd gitops/devsecops-gitops-config
+           cd devsecops-gitops-config/
            pwd
         #  cd dev/
         #  sed -i "s|image:.*|image: ${{ secrets.DOCKER_USERNAME }}/devsecops:v2|" deployment.yaml
