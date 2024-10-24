@@ -184,6 +184,7 @@ jobs:
           repository: khumozin/devsecops-gitops-config
           ref: main
           token: ${{ secrets.DEVSECOPSAPP_PAT }}
+          path: gitops
 
       - name: GitOps - Update Deployment Manifest
         run: |
