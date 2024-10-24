@@ -189,7 +189,8 @@ jobs:
       - name: GitOps - Update Deployment Manifest
         run: |
           pwd
-          cd dev/
+          ls
+        #  cd dev/
         #  sed -i "s|image:.*|image: ${{ secrets.DOCKER_USERNAME }}/devsecops:v2|" deployment.yaml
         #   sed -i "s|image:.*|image: ${{ secrets.DOCKER_USERNAME }}/devsecops:v${{ needs.semantic-release.outputs.pkg-version }}|" dev/deployment.yaml
 
