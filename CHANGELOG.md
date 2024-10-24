@@ -1,3 +1,10 @@
+## [1.0.9](https://github.com/Khumozin/devsecops-app/compare/v1.0.8...v1.0.9) (2024-10-24)
+
+
+### Bug Fixes
+
+* update last stage ([9929def](https://github.com/Khumozin/devsecops-app/commit/9929def01afd1ade69d64cc283e310f9e29bc929))
+
 ## [1.0.8](https://github.com/Khumozin/devsecops-app/compare/v1.0.7...v1.0.8) (2024-10-24)
 
 
