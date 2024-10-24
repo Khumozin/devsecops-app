@@ -1,3 +1,10 @@
+## [1.0.8](https://github.com/Khumozin/devsecops-app/compare/v1.0.7...v1.0.8) (2024-10-24)
+
+
+### Bug Fixes
+
+* cicd ([c708575](https://github.com/Khumozin/devsecops-app/commit/c70857537b138b7bacb9ef538ea88a9b01006e23))
+
 ## [1.0.7](https://github.com/Khumozin/devsecops-app/compare/v1.0.6...v1.0.7) (2024-10-24)
 
 
