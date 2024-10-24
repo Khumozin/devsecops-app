@@ -1,4 +1,4 @@
-name: Build, Test, Secure, Release
+name: Build, Test, Secure, Release & Update Manifests
 
 on:
   push:
