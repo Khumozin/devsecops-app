@@ -1,3 +1,10 @@
+## [1.0.7](https://github.com/Khumozin/devsecops-app/compare/v1.0.6...v1.0.7) (2024-10-24)
+
+
+### Bug Fixes
+
+* update checkout ([3f6192c](https://github.com/Khumozin/devsecops-app/commit/3f6192c0192c0d2b984648afd8a721b6665385a5))
+
 ## [1.0.6](https://github.com/Khumozin/devsecops-app/compare/v1.0.5...v1.0.6) (2024-10-24)
 
 
