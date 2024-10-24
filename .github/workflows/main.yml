@@ -180,12 +180,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: main
           repository: khumozin/devsecops-gitops-config
+          ref: main
           token: ${{ secrets.DEVSECOPSAPP_PAT }}
 
       - name: GitOps - Update Deployment Manifest
         run: |
+          pwd
+          ls
           cd dev/
           sed -i "s|image:.*|image: ${{ secrets.DOCKER_USERNAME }}/devsecops:v${{ needs.semantic-release.outputs.pkg-version }}|" dev/deployment.yaml
 
