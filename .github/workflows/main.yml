@@ -6,177 +6,177 @@ on:
       - main
 
 jobs:
-#   code-build:
-#     runs-on: ubuntu-latest
-#     strategy:
-#       matrix:
-#         node-version: [20.x]
+  code-build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.x]
 
-#     steps:
-#       - uses: actions/checkout@v4
-#       - name: Cache npm modules
-#         uses: actions/cache@v3
-#         with:
-#           path: ~/.npm
-#           key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
-#           restore-keys: ${{ runner.os }}-npm-
+    steps:
+      - uses: actions/checkout@v4
+      - name: Cache npm modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: ${{ runner.os }}-npm-
 
-#       - name: Use Node.js ${{ matrix.node-version }}
-#         uses: actions/setup-node@v4
-#         with:
-#           node-version: ${{ matrix.node-version }}
-#       - run: npm ci
-#       - run: npm run build
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm ci
+      - run: npm run build
 
-#   dependency-analysis:
-#     runs-on: ubuntu-latest
-#     strategy:
-#       matrix:
-#         node-version: [20.x]
+  dependency-analysis:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.x]
 
-#     steps:
-#       - uses: actions/checkout@v4
-#       - name: Set up Node.js ${{ matrix.node-version }}
-#         uses: actions/setup-node@v4
-#         with:
-#           node-version: ${{ matrix.node-version }}
-#       - run: npm ci
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm ci
 
-#       - name: Run Snyk to check for vulnerabilities
-#         uses: snyk/actions/node@master
-#         continue-on-error: true # To make sure that SARIF upload gets called
-#         env:
-#           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-#         with:
-#           args: --severity-threshold=high
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@master
+        continue-on-error: true # To make sure that SARIF upload gets called
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high
 
-#     #   - name: Run npm audit
-#     #     run: npm audit --audit-level=high
+    #   - name: Run npm audit
+    #     run: npm audit --audit-level=high
 
-#   secret-scan:
-#     runs-on: ubuntu-latest
+  secret-scan:
+    runs-on: ubuntu-latest
 
-#     steps:
-#       - uses: actions/checkout@v4
-#         with:
-#           fetch-depth: 0
-#       - uses: gitleaks/gitleaks-action@v2
-#         env:
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-#   unit-test:
-#     runs-on: ubuntu-latest
-#     needs: [code-build, dependency-analysis, secret-scan]
-#     strategy:
-#       matrix:
-#         node-version: [20.x]
+  unit-test:
+    runs-on: ubuntu-latest
+    needs: [code-build, dependency-analysis, secret-scan]
+    strategy:
+      matrix:
+        node-version: [20.x]
 
-#     steps:
-#       - uses: actions/checkout@v4
-#       - name: Cache npm modules
-#         uses: actions/cache@v3
-#         with:
-#           path: ~/.npm
-#           key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Cache npm modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
 
-#       - name: Use Node.js ${{ matrix.node-version }}
-#         uses: actions/setup-node@v4
-#         with:
-#           node-version: ${{ matrix.node-version }}
-#       - run: npm ci
-#       - run: npm test -- --watch=false --browsers=ChromeHeadless
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm ci
+      - run: npm test -- --watch=false --browsers=ChromeHeadless
 
-#   semantic-release:
-#     runs-on: ubuntu-latest
-#     needs: [unit-test]
-#     strategy:
-#       matrix:
-#         node-version: [20.x]
-#     permissions:
-#       contents: write
-#     outputs:
-#       pkg-version: ${{ steps.get-version.outputs.pkg-version }}
-#       prev-pkg-version: ${{ steps.get-previous-version.outputs.prev-pkg-version }}
-#     steps:
-#       - uses: actions/checkout@v4
-#       - name: Cache npm modules
-#         uses: actions/cache@v3
-#         with:
-#           path: ~/.npm
-#           key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
-#           restore-keys: ${{ runner.os }}-npm-
+  semantic-release:
+    runs-on: ubuntu-latest
+    needs: [unit-test]
+    strategy:
+      matrix:
+        node-version: [20.x]
+    permissions:
+      contents: write
+    outputs:
+      pkg-version: ${{ steps.get-version.outputs.pkg-version }}
+      prev-pkg-version: ${{ steps.get-previous-version.outputs.prev-pkg-version }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Cache npm modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: ${{ runner.os }}-npm-
 
-#       - name: Use Node.js ${{ matrix.node-version }}
-#         uses: actions/setup-node@v4
-#         with:
-#           node-version: ${{ matrix.node-version }}
-#       - run: npm ci
-#       - run: npm run build
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm ci
+      - run: npm run build
 
-#       - name: Get previous release version
-#         id: get-previous-version
-#         run: |
-#           PREV_PKG_VERSION=$(npm pkg get version)
-#           echo "prev-pkg-version=$PREV_PKG_VERSION" > $GITHUB_OUTPUT
+      - name: Get previous release version
+        id: get-previous-version
+        run: |
+          PREV_PKG_VERSION=$(npm pkg get version)
+          echo "prev-pkg-version=$PREV_PKG_VERSION" > $GITHUB_OUTPUT
 
-#       - name: Semantic release
-#         uses: nick-fields/retry@v2
-#         with:
-#           timeout_minutes: 5
-#           max_attempts: 2
-#           command: npx semantic-release
+      - name: Semantic release
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 5
+          max_attempts: 2
+          command: npx semantic-release
 
-#         env:
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-#       - name: Get updated release version
-#         id: get-version
-#         run: |
-#           PKG_VERSION=$(npm pkg get version)
-#           echo "pkg-version=$PKG_VERSION" > $GITHUB_OUTPUT
+      - name: Get updated release version
+        id: get-version
+        run: |
+          PKG_VERSION=$(npm pkg get version)
+          echo "pkg-version=$PKG_VERSION" > $GITHUB_OUTPUT
 
-#   image-build:
-#     runs-on: ubuntu-latest
-#     needs: [semantic-release]
-#     if: ${{ needs.semantic-release.outputs.pkg-version != needs.semantic-release.outputs.prev-pkg-version }}
-#     steps:
-#       - uses: actions/checkout@v4
-#       - name: Cache Docker layers
-#         uses: actions/cache@v3
-#         with:
-#           path: /tmp/.buildx-cache
-#           key: ${{ runner.os }}-docker-${{ github.sha }}
-#           restore-keys: |
-#             ${{ runner.os }}-docker-
-#       - name: Build Docker image
-#         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/devsecops:latest .
+  image-build:
+    runs-on: ubuntu-latest
+    needs: [semantic-release]
+    if: ${{ needs.semantic-release.outputs.pkg-version != needs.semantic-release.outputs.prev-pkg-version }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Cache Docker layers
+        uses: actions/cache@v3
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-docker-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-docker-
+      - name: Build Docker image
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/devsecops:latest .
 
-#       - name: Scan Docker image for vulnerabilities with Trivy
-#         uses: aquasecurity/trivy-action@master
-#         with:
-#           image-ref: ${{ secrets.DOCKER_USERNAME }}/devsecops:latest
-#           format: "github"
-#           output: "dependency-results.sbom.json"
-#           severity: "CRITICAL,HIGH"
-#           exit-code: "1"
+      - name: Scan Docker image for vulnerabilities with Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ${{ secrets.DOCKER_USERNAME }}/devsecops:latest
+          format: "github"
+          output: "dependency-results.sbom.json"
+          severity: "CRITICAL,HIGH"
+          exit-code: "1"
 
-#       - name: Tag Docker image with semantic version and latest
-#         run: |
-#           docker image ls
-#           docker tag ${{ secrets.DOCKER_USERNAME }}/devsecops:latest ${{ secrets.DOCKER_USERNAME }}/devsecops:latest
-#           docker tag ${{ secrets.DOCKER_USERNAME }}/devsecops:latest ${{ secrets.DOCKER_USERNAME }}/devsecops:v${{ needs.semantic-release.outputs.pkg-version }}
+      - name: Tag Docker image with semantic version and latest
+        run: |
+          docker image ls
+          docker tag ${{ secrets.DOCKER_USERNAME }}/devsecops:latest ${{ secrets.DOCKER_USERNAME }}/devsecops:latest
+          docker tag ${{ secrets.DOCKER_USERNAME }}/devsecops:latest ${{ secrets.DOCKER_USERNAME }}/devsecops:v${{ needs.semantic-release.outputs.pkg-version }}
 
-#       - name: Log in to Docker Hub
-#         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - name: Log in to Docker Hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
-#       - name: Push latest Docker image to Docker Hub
-#         run: |
-#           docker push ${{ secrets.DOCKER_USERNAME }}/devsecops:v${{ needs.semantic-release.outputs.pkg-version }}
-#           docker push ${{ secrets.DOCKER_USERNAME }}/devsecops:latest
+      - name: Push latest Docker image to Docker Hub
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/devsecops:v${{ needs.semantic-release.outputs.pkg-version }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/devsecops:latest
 
   update-manifests:
     runs-on: ubuntu-latest
-    # needs: [image-build]
+    needs: [image-build]
     steps:
       - name: Checkout GitOps Repo
         uses: actions/checkout@v4
@@ -187,19 +187,13 @@ jobs:
 
       - name: GitOps - Update Deployment Manifest
         run: |
-           pwd
-           ls
-           cd dev
-           pwd
-           ls
-           sed -i "s|image:.*|image: ${{ secrets.DOCKER_USERNAME }}/devsecops:v2|" deployment.yml
-        #   sed -i "s|image:.*|image: ${{ secrets.DOCKER_USERNAME }}/devsecops:v${{ needs.semantic-release.outputs.pkg-version }}|" dev/deployment.yaml
+          cd dev
+          sed -i "s|image:.*|image: ${{ secrets.DOCKER_USERNAME }}/devsecops:v${{ needs.semantic-release.outputs.pkg-version }}|" deployment.yml
 
       - name: Commit and push changes
         run: |
           git config --local user.name "GitHub Actions"
           git config --local user.email "actions@github.com"
           git add dev/deployment.yml
-          git commit -m "chore: bump image version to v2"
+          git commit -m "chore: bump image version to v${{ needs.semantic-release.outputs.pkg-version }}"
           git push
-        #   git commit -m "chore: bump image version to v${{ needs.semantic-release.outputs.pkg-version }}"
