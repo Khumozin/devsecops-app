@@ -1,3 +1,10 @@
+## [1.0.11](https://github.com/Khumozin/devsecops-app/compare/v1.0.10...v1.0.11) (2025-04-18)
+
+
+### Bug Fixes
+
+* convert image version to string ([c5927b6](https://github.com/Khumozin/devsecops-app/commit/c5927b6ef5467ebdf209d8e47ed9dc99c1bc2e7e))
+
 ## [1.0.10](https://github.com/Khumozin/devsecops-app/compare/v1.0.9...v1.0.10) (2025-04-18)
 
 
