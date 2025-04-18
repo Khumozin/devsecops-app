@@ -168,7 +168,7 @@ jobs:
             push: true
             tags: |
                 ${{ secrets.DOCKER_USERNAME }}/devsecops:latest
-                ${{ secrets.DOCKER_USERNAME }}/devsecops:v${{ needs.semantic-release.outputs.pkg-version }}
+                ${{ secrets.DOCKER_USERNAME }}/devsecops:v${{ fromJSON(needs.semantic-release.outputs.pkg-version) }}
             cache-from: type=local,src=/tmp/.buildx-cache
             cache-to: type=local,dest=/tmp/.buildx-cache-new
 
