@@ -1,3 +1,10 @@
+## [1.0.10](https://github.com/Khumozin/devsecops-app/compare/v1.0.9...v1.0.10) (2025-04-18)
+
+
+### Bug Fixes
+
+* build for multi-platform ([eb408d8](https://github.com/Khumozin/devsecops-app/commit/eb408d8e069b97a89b7914cc66ea222159623687))
+
 ## [1.0.9](https://github.com/Khumozin/devsecops-app/compare/v1.0.8...v1.0.9) (2024-10-24)
 
 
