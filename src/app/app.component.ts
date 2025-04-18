@@ -1,14 +1,15 @@
 import { Component, HostBinding } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 
 import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
+  template: `
+    <div class="w-full h-svh flex items-center justify-center bg-slate-950">
+      <span class="font-medium text-6xl text-gray-100">DevSecOps</span>
+    </div>
+  `,
 })
 export class AppComponent {
   @HostBinding('attr.app-version')
